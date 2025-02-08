@@ -8,12 +8,13 @@ namespace GUI
 {
     public class InventorySlot : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private Image image;
         [Header("Settings")]
         [SerializeField] private Vector2Int size;
         [SerializeField] private InventoryItem item;
 
         private InventoryBase inventoryBase;
-        private Image image;
 
         public bool IsOccupied => item != null;
 
@@ -35,7 +36,15 @@ namespace GUI
         public InventoryItem GetItem() => this.item;
         public void SetItem(InventoryItem item) 
         {
-            SetIcon(null);
+            if (item)
+            {
+                SetIcon(item.Icon);
+            }
+            else
+            {
+                SetIcon(null);
+            }
+
             this.item = item;
         }
 

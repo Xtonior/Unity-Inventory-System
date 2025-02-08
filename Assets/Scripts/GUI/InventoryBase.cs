@@ -12,8 +12,10 @@ namespace GUI
         [SerializeField] private Vector2Int inventorySize = Vector2Int.one;
 
         [Header("References")]
+        [SerializeField] private GameObject panel;
         [SerializeField] private InventoryCursor cursor;
         [SerializeField] private InventorySlot inventorySlotPrefab;
+        [SerializeField] private InventoryFiller inventoryFiller;
 
         private InventoryItem selectedItem;
         private InventorySlot lastSlot;
@@ -21,7 +23,10 @@ namespace GUI
         void Start()
         {
             GenerateSlots();
+            inventoryFiller.GenerateItems();
         }
+
+        public GameObject GetPanel() => panel;
 
         public void StartDragging(InventorySlot slot)
         {
@@ -77,17 +82,10 @@ namespace GUI
 
             if (raycastResults.Count > 0)
             {
-                return raycastResults[0].gameObject.GetComponent<InventorySlot>(); 
+                return raycastResults[0].gameObject.GetComponent<InventorySlot>();
             }
 
             return null;
-        }
-
-        private bool CheckValidSlot()
-        {
-
-
-            return true;
         }
 
         private void GenerateSlots()

@@ -11,5 +11,7 @@ namespace GUI
         public string ItemName;
         public Sprite Icon;
         public Vector2Int Size;
+        [Header("Parameters")]
+        public float Weight = 50.0f;
     }
 }

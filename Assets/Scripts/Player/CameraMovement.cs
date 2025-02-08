@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using GUI;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private GuiHandler guiHandler;
+
     [Header("Settings")]
     [SerializeField] private float sensX = 100f;
     [SerializeField] private float sensY = 100f;
@@ -21,6 +25,9 @@ public class CameraMovement : MonoBehaviour
 
     private Rigidbody rb;
 
+    float horizontalInput;
+    float verticalInput;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -31,8 +38,11 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
+        if (guiHandler.IsGuiActive()) return;
+
         Look();
         ControlSpeed();
+        HandleInput();
     }
 
     void FixedUpdate()
@@ -42,15 +52,21 @@ public class CameraMovement : MonoBehaviour
 
     private void Look()
     {
-        mouseX = Input.GetAxisRaw("Mouse X");
-        mouseY = Input.GetAxisRaw("Mouse Y");
-         
         yRotation += mouseX * sensX * multiplier;
         xRotation -= mouseY * sensY * multiplier;
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
+    }
+
+    private void HandleInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+
+        mouseX = Input.GetAxisRaw("Mouse X");
+        mouseY = Input.GetAxisRaw("Mouse Y");
     }
 
     private void Move()
@@ -60,10 +76,7 @@ public class CameraMovement : MonoBehaviour
 
     private Vector3 GetMoveDir()
     {
-        float hor = Input.GetAxisRaw("Horizontal");
-        float ver = Input.GetAxisRaw("Vertical");
-
-        return (transform.forward * ver + transform.right * hor).normalized;
+        return (transform.forward * verticalInput + transform.right * horizontalInput).normalized;
     }
 
     private void ControlSpeed()

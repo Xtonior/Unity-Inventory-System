@@ -15,3 +15,4 @@ MonoBehaviour:
   ItemName: Plate Chesh
   Icon: {fileID: 21300000, guid: 40f2d97515d2434418f9dcdd11d438a2, type: 3}
   Size: {x: 0, y: 0}
+  Weight: 15
