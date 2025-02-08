@@ -8,13 +8,23 @@ using Utils;
 public class InventoryFiller : MonoBehaviour
 {
     [SerializeField] private float itemSpawnChance = 0.5f;
+    [SerializeField] private Container container;
     [SerializeField] private GameObject inventory;
     [SerializeField] private List<InventoryItem> inventoryItems;
 
     private RandomWeightedSelector<InventoryItem> weightedSelector = new RandomWeightedSelector<InventoryItem>();
 
+    private bool isGenerated = false;
+
+    void Start()
+    {
+        container.OnContainerOpen += GenerateItems;
+    }
+
     public void GenerateItems()
     {
+        if (isGenerated) return;
+
         InventorySlot[] slots = inventory.GetComponentsInChildren<InventorySlot>();
 
         for (int i = 0; i < inventoryItems.Count; i++)
@@ -30,5 +40,7 @@ public class InventoryFiller : MonoBehaviour
             var itm = weightedSelector.GetRandomItem();
             slot.SetItem(itm);
         }
+
+        isGenerated = true;
     }
 }

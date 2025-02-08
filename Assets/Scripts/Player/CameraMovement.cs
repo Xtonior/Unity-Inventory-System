@@ -30,15 +30,23 @@ public class CameraMovement : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        if (guiHandler.IsGuiActive()) return;
+        if (!guiHandler.IsGuiActive())
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            return;
+        }
 
         Look();
         ControlSpeed();

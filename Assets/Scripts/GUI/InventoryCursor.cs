@@ -12,8 +12,9 @@ public class InventoryCursor : MonoBehaviour
 
     void Update()
     {
-        cursorPosition = Input.mousePosition;
+        image.enabled = image.sprite;
 
+        cursorPosition = Input.mousePosition;
         transform.position = cursorPosition;
     }
 
